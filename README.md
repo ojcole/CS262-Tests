@@ -2,6 +2,6 @@
 
 Make sure you have swipl installed then just create the venv, and run with
 
-```python test.py```
+`python test.py`
 
-Arguments are 
+Arguments can be found with `--help`
