@@ -35,7 +35,8 @@ BINARY_OPERATORS = [("and", "And"), ("uparrow", "Nand"), ("or", "Or"), ("downarr
 @click.option("--plfile", default="resolution.pl", help="File containing your source")
 @click.option("--count", default=30, help="How many tests to run")
 @click.option("--symbols", default=5, help="How many symbols to include in the problem")
-def main(maxdepth, seed, tests, plfile, count, symbols):
+@click.option("--quiet", default=False, is_flag=True, help="Avoids outputting until the end")
+def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors):
     """ Entry point of the test script """
     if tests is not None:
         data = pandas.read_csv(f"tests/{tests}", header=None)
@@ -59,16 +60,36 @@ def main(maxdepth, seed, tests, plfile, count, symbols):
         try:
             problems = [generate_problem(
                 maxdepth, problem_symbols) for _ in range(int(count))]
+            solutions = []
+            actual_results = []
+            same = []
             for infix, clause in problems:
-                logger.info(f"Running test on {infix}")
+                if not quiet:
+                    logger.info(f"Running test on {infix}")
 
                 actual_res = run_problems([infix], plfile)[0]
                 solution = solve_problem(clause)
 
-                if actual_res == solution:
-                    logger.info("PASS")
-                else:
-                    logger.info("FAIL")
+                solutions.append(solution)
+                actual_results.append(actual_res)
+
+                res = "PASS" if actual_res == solution else "FAIL"
+
+                if not quiet:
+                    logger.info(res)
+
+                same.append(res)
+
+            logger.info("Summary:")
+
+            res = list(zip(map(lambda x: x[0], problems), solutions, actual_results, same))
+
+            logger.info(tabulate(res, headers=[
+                "Problem", "Expected", "Actual", "Result"]))
+
+            if all(map(lambda x: x == "PASS", same)):
+                logger.info("ALL PASSED")
+
         except AssertionError:
             logger.error("Prolog program produced unexpected output. Expecting YES or NO")
         except ValueError:
@@ -148,21 +169,6 @@ def run_problems(problems: [str], resfile: str) -> [bool]:
 
 def solve_problem(problem: str) -> str:
     return "NO" if isinstance(eval(f"satisfiable(Not({problem}))"), dict) else "YES"
-
-
-def run_problem(problem: str, resfile: str) -> bool:
-    p = subprocess.Popen(["swipl", "--quiet", "-l", resfile, "-t",
-                          f"test({problem})"], stdout=subprocess.PIPE)
-
-    p.wait()
-    result, _ = p.communicate()
-    stringres = bytes(result).decode("utf-8").strip()
-
-    logger.info(stringres)
-
-    assert stringres == "YES" or stringres == "NO"
-
-    return result == "YES"
 
 
 if __name__ == "__main__":
