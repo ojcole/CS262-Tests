@@ -172,15 +172,15 @@ def run_problems(problems: [str], resfile: str) -> [bool]:
 
     tmp.write(contents + f"\n\nrun :- {problem_string}.")
 
+    tmp.close()
+    resolution.close()
+
     p = subprocess.Popen(["swipl", "--quiet", "-l", "temp.pl", "-t",
                           f"run"], stdout=subprocess.PIPE)
 
     p.wait()
     result, _ = p.communicate()
     stringres = bytes(result).decode("utf-8").strip()
-
-    tmp.close()
-    resolution.close()
 
     remove("temp.pl")
 
