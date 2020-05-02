@@ -4,6 +4,12 @@ import logging
 import random
 import string
 import sys
+import pandas
+from os import remove
+from tabulate import tabulate
+import sympy
+from sympy.logic.boolalg import Nand, Not, Nor, Xor, Equivalent, Implies, And, Or
+from sympy.logic.inference import satisfiable
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -14,66 +20,149 @@ handler.setLevel(logging.INFO)
 logger.addHandler(handler)
 
 SYMBOLS = list(string.ascii_lowercase)
-BINARY_OPERATORS = ["and", "uparrow", "or", "downarrow", "imp",
-                    "notimp", "revimp", "notrevimp", "equiv", "notequiv"]
+sympsymbs = sympy.symbols(SYMBOLS)
+
+BINARY_OPERATORS = [("and", "And"), ("uparrow", "Nand"), ("or", "Or"), ("downarrow", "Nor"),
+                    ("imp", "Implies"), ("notimp", "s"), ("revimp", "s"), ("notrevimp", "s"),
+                    ("equiv", "Equivalent"), ("notequiv", "Xor")]
 
 
 @click.command()
 @click.option("--maxdepth", default=5, help="Maximum depth of the generated problems")
 @click.option("--seed", default="notquitehaskell", help="Seed to generate the problems")
-@click.option("--file", default="resolution.pl", help="File containing your source")
-@click.option("--tests", default=30, help="How many tests to run")
-@click.option("--symbols", default=10, help="How many symbols to include in the problem")
-def main(maxdepth, seed, file, tests, symbols):
+@click.option("--tests", default=None,
+              help="CSV containing test cases **Must be in the test folder**")
+@click.option("--plfile", default="resolution.pl", help="File containing your source")
+@click.option("--count", default=30, help="How many tests to run")
+@click.option("--symbols", default=5, help="How many symbols to include in the problem")
+def main(maxdepth, seed, tests, plfile, count, symbols):
     """ Entry point of the test script """
-    random.seed(seed)
-    problem_symbols = SYMBOLS[:symbols]
-    try:
-        for i in range(int(tests)):
-            problem = generate_problem(maxdepth, problem_symbols)
-            logger.info(f"Running test on {problem}")
+    if tests is not None:
+        data = pandas.read_csv(f"tests/{tests}", header=None)
 
-            actual_res = solve_problem(problem)
-            res = run_problem(problem)
+        problems = list(data[0])
+        solutions = list(data[1])
 
-            if res == actual_res:
-                logger.info("Success")
-    except AssertionError:
-        logger.error("Prolog program produced unexpected output. Expecting YES or NO")
-    except ValueError:
-        logger.error("Tests needs to be a number")
+        actual_results = run_problems(problems, plfile)
 
+        same = ["PASS" if solutions[i] == actual_results[i]
+                else "FAIL" for i in range(len(solutions))]
 
-def generate_problem(maxdepth: int, symbs: list) -> str:
-    if maxdepth <= 0:
-        clause = symbs[random.randint(0, len(symbs) - 1)]
+        res = list(zip(problems, solutions, actual_results, same))
+
+        logger.info(tabulate(res, headers=[
+                    "Problem", "Expected", "Actual", "Result"]))
+
     else:
-        clause = generate_problem(maxdepth - random.randint(1, 5), symbs)
-        clause += f",{generate_problem(maxdepth - random.randint(1, 5), symbs)}"
-        clause = f"{BINARY_OPERATORS[random.randint(0, len(BINARY_OPERATORS) - 1)]}({clause})"
+        random.seed(seed)
+        problem_symbols = SYMBOLS[:symbols]
+        try:
+            problems = [generate_problem(
+                maxdepth, problem_symbols) for _ in range(int(count))]
+            for infix, clause in problems:
+                logger.info(f"Running test on {infix}")
+
+                actual_res = run_problems([infix], plfile)[0]
+                solution = solve_problem(clause)
+
+                if actual_res == solution:
+                    logger.info("PASS")
+                else:
+                    logger.info("FAIL")
+        except AssertionError:
+            logger.error("Prolog program produced unexpected output. Expecting YES or NO")
+        except ValueError:
+            logger.error("Tests needs to be a number")
+
+
+def generate_problem(maxdepth: int, symbs: list) -> (str, str):
+    if maxdepth <= 0:
+        rand = random.randint(0, len(symbs) - 1)
+        infix = symbs[rand]
+        clause = f"sympsymbs[{rand}]"
+    else:
+        rand1 = random.randint(0, len(BINARY_OPERATORS) - 1)
+        rand2 = maxdepth - random.randint(1, 5)
+        rand3 = maxdepth - random.randint(1, 5)
+
+        operator, sympop = BINARY_OPERATORS[rand1]
+        infix1, sympclause1 = generate_problem(rand2, symbs)
+        infix2, sympclause2 = generate_problem(rand3, symbs)
+        infix = f"({infix1})" if rand2 > 0 else infix1
+        infix += f" {operator} "
+        infix += f"({infix2})" if rand3 > 0 else infix2
+
+        if sympop == "s":
+            if "rev" in operator:
+                tmp = sympclause1
+                sympclause1 = sympclause2
+                sympclause2 = tmp
+                operator = operator.replace("rev", "")
+
+            if operator == "imp":
+                sympop = "Implies"
+
+            if operator == "notimp":
+                clause = f"Not(Implies({sympclause1}, {sympclause2}))"
+
+        if sympop != "s":
+            clause = f"{sympop}({sympclause1}, {sympclause2})"
 
     negs = random.randint(0, 5)
 
     if negs >= 3:
+        if maxdepth > 0:
+            infix = f"({infix})"
         for i in range(negs - 3):
-            clause = f"neg({clause})"
+            infix = f"neg {infix}"
+            clause = f"Not({clause})"
 
-    return clause
-
-
-def solve_problem(problem: str) -> bool:
-    pass
+    return infix, clause
 
 
-def run_problem(problem: str) -> bool:
-    result = subprocess.check_output(
-        ["swipl", "--quiet", "-l", "resolution.pl", "-t", f"test({problem})"])
+def run_problems(problems: [str], resfile: str) -> [bool]:
 
-    logger.info(result)
+    tmp = open("temp.pl", "w+")
+    resolution = open(resfile, "r+")
 
-    assert result == b'YES' or result == b'NO'
+    contents = resolution.read()
 
-    return result == b'YES'
+    problem_string = ",".join(map(lambda x: f"test({x}),writeln(\"\")", problems))
+
+    tmp.write(contents + f"\n\nrun :- {problem_string}.")
+
+    p = subprocess.Popen(["swipl", "--quiet", "-l", "temp.pl", "-t",
+                          f"run"], stdout=subprocess.PIPE)
+
+    p.wait()
+    result, _ = p.communicate()
+    stringres = bytes(result).decode("utf-8").strip()
+
+    tmp.close()
+    resolution.close()
+
+    remove("temp.pl")
+
+    return stringres.split("\n")
+
+
+def solve_problem(problem: str) -> str:
+    return "NO" if isinstance(eval(f"satisfiable(Not({problem}))"), dict) else "YES"
+
+
+def run_problem(problem: str, resfile: str) -> bool:
+    p = subprocess.Popen(["swipl", "--quiet", "-l", resfile, "-t",
+                          f"test({problem})"], stdout=subprocess.PIPE)
+
+    p.wait()
+    result, _ = p.communicate()
+    stringres = bytes(result).decode("utf-8").strip()
+
+    logger.info(stringres)
+
+    assert stringres == "YES" or stringres == "NO"
+
+    return result == "YES"
 
 
 if __name__ == "__main__":

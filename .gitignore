@@ -8,6 +8,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+base-sol.csv
+
 # C extensions
 *.so
 

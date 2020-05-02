@@ -1,0 +1,12 @@
+true,YES
+false,NO
+neg x,NO
+x or x,NO
+x or neg x,YES
+x or true,YES
+x or false or true,YES
+x and x,NO
+x and y,NO
+x and neg x,NO
+x equiv x,YES
+x equiv y,NO

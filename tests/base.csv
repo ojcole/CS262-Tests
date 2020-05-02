@@ -1,0 +1,10 @@
+((x imp y) and x) imp y,NO
+(neg x imp y) imp (neg (x notimp y) imp y),NO
+((x imp y) and (y imp z)) imp (neg neg z or neg x),NO
+(x imp ( y imp z)) equiv ((x imp y) imp z),NO
+(x notequiv y) equiv (y notequiv x),NO
+(x notequiv (y notequiv z)) equiv ((x notequiv y) notequiv z),NO
+(neg x downarrow neg y) revimp neg (x uparrow y),NO
+(neg x revimp neg y) and ((z notrevimp u) or (u uparrow neg v)),NO
+((x or y) imp (neg y notrevimp z)) or (neg neg (z equiv x) notrevimp y),NO
+(neg (z notrevimp y) revimp x) imp ((x or w) imp ((y imp z) or w)),NO
