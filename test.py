@@ -8,7 +8,7 @@ import pandas
 from os import remove
 from tabulate import tabulate
 import sympy
-from sympy.logic.boolalg import Nand, Not, Nor, Xor, Equivalent, Implies, And, Or
+from sympy.logic.boolalg import Nand, Not, Nor, Xor, Equivalent, Implies, And, Or, true, false
 from sympy.logic.inference import satisfiable
 
 logger = logging.getLogger()
@@ -121,9 +121,14 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, c
 
 def generate_problem(maxdepth: int, symbs: list) -> (str, str):
     if maxdepth <= 0:
-        rand = random.randint(0, len(symbs) - 1)
-        infix = symbs[rand]
-        clause = f"sympsymbs[{rand}]"
+        rand = random.randint(0, len(symbs) + 1)
+
+        if rand >= len(symbs):
+            clause = ["true", "false"][rand - len(symbs)]
+            infix = clause
+        else:
+            clause = f"sympsymbs[{rand}]"
+            infix = symbs[rand]
     else:
         rand1 = random.randint(0, len(BINARY_OPERATORS) - 1)
         rand2 = maxdepth - random.randint(1, 5)
