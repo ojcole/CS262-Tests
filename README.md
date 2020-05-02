@@ -26,7 +26,7 @@ Arguments and what they do can be found with `--help`
 
 ## Creating own tests
 
-Populate a CSV in the tests folder with separators of "|"
+Populate a CSV in the tests folder with separators of "," or elsewhere and use `--tests` to run it
 
 # Coursework Solutions
 
