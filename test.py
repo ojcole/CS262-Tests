@@ -36,7 +36,11 @@ BINARY_OPERATORS = [("and", "And"), ("uparrow", "Nand"), ("or", "Or"), ("downarr
 @click.option("--count", default=30, help="How many tests to run")
 @click.option("--symbols", default=5, help="How many symbols to include in the problem")
 @click.option("--quiet", default=False, is_flag=True, help="Avoids outputting until the end")
-def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors):
+@click.option("--errors", default=False, is_flag=True,
+              help="Avoids outputting randomly generated tests which passed")
+@click.option("--truths", default=False, is_flag=True, help="Only outputs tautologies")
+@click.option("--csvout", default=False, is_flag=True, help="Output in CSV format")
+def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, csvout):
     """ Entry point of the test script """
     if tests is not None:
         data = pandas.read_csv(f"tests/{tests}", header=None)
@@ -55,11 +59,15 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors):
                     "Problem", "Expected", "Actual", "Result"]))
 
     else:
+        if csvout:
+            quiet = True
+
         random.seed(seed)
         problem_symbols = SYMBOLS[:symbols]
         try:
             problems = [generate_problem(
                 maxdepth, problem_symbols) for _ in range(int(count))]
+            probs = []
             solutions = []
             actual_results = []
             same = []
@@ -70,25 +78,37 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors):
                 actual_res = run_problems([infix], plfile)[0]
                 solution = solve_problem(clause)
 
-                solutions.append(solution)
-                actual_results.append(actual_res)
+                append = not errors or actual_res != solution
+
+                if append:
+                    probs.append(infix)
+                    solutions.append(solution)
+                    actual_results.append(actual_res)
 
                 res = "PASS" if actual_res == solution else "FAIL"
 
                 if not quiet:
                     logger.info(res)
 
-                same.append(res)
+                if append:
+                    same.append(res)
 
-            logger.info("Summary:")
+            if not csvout:
+                logger.info("Summary:")
+                res = list(zip(probs, solutions, actual_results, same))
+                if truths:
+                    res = list(filter(lambda x: x[1] == "YES", res))
+                if len(res) > 0:
+                    logger.info(tabulate(res, headers=[
+                        "Problem", "Expected", "Actual", "Result"]))
 
-            res = list(zip(map(lambda x: x[0], problems), solutions, actual_results, same))
-
-            logger.info(tabulate(res, headers=[
-                "Problem", "Expected", "Actual", "Result"]))
-
-            if all(map(lambda x: x == "PASS", same)):
-                logger.info("ALL PASSED")
+                if all(map(lambda x: x == "PASS", same)):
+                    logger.info("ALL PASSED")
+            else:
+                res = list(zip(probs, solutions))
+                if truths:
+                    res = list(filter(lambda x: x[1] == "YES", res))
+                print("\n".join(map(lambda x: ",".join(x), res)))
 
         except AssertionError:
             logger.error("Prolog program produced unexpected output. Expecting YES or NO")

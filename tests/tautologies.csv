@@ -1,0 +1,91 @@
+neg ((neg neg ((((neg neg c notequiv c) or neg neg d) and (((c or neg d)) notimp (neg (neg neg c notequiv neg neg d)))) downarrow (neg neg d notrevimp (d equiv d)))) notimp ((neg b or (neg neg b equiv b)))),YES
+((((neg neg (b imp d)) imp d) revimp neg neg d) revimp (b notrevimp neg a)),YES
+((neg (neg neg a uparrow d)) downarrow c) imp ((c uparrow (b notequiv neg d))),YES
+(neg neg ((neg (neg c notrevimp neg neg b)) revimp (neg (d revimp neg neg a)))) revimp (neg ((neg neg (c notequiv neg d)) notrevimp c)),YES
+((c notequiv ((d imp neg c))) notrevimp ((b notimp a) uparrow neg neg d)) imp ((neg (d revimp neg c)) imp ((a and c) downarrow c)),YES
+neg neg ((b revimp a) imp (((c notimp d) uparrow (neg ((neg (a or c)) uparrow ((d notrevimp b))))))),YES
+((neg (((a imp d) notrevimp c) notequiv ((neg c or (a downarrow a))))) uparrow (((d notimp a)) downarrow d)),YES
+neg ((((((neg neg a or b)) imp ((d or neg neg c)))) equiv (neg neg (((neg neg a and neg neg c)) uparrow (b equiv d)))) notimp (neg ((neg neg d or (neg (neg neg b or neg a))) notimp (((d revimp a) uparrow neg neg a) revimp (((b downarrow a) equiv (neg c notequiv b)) notimp (d revimp b)))))),YES
+neg ((neg neg ((neg (c and ((b notequiv c)))) notimp (d notimp (neg ((b revimp a) notrevimp neg b))))) and (neg ((neg neg (neg neg d imp a)) uparrow (neg (d imp neg neg a))))),YES
+neg (((neg neg (neg a notrevimp neg neg c)) notimp b) and (c uparrow a)),YES
+neg neg (((a notequiv (neg neg (a notequiv b)))) imp (c imp (neg neg (b imp b)))),YES
+((d downarrow neg d) revimp neg a) imp ((neg (b revimp (neg (neg neg a revimp (d equiv b))))) uparrow (neg neg (neg neg d and neg neg a))),YES
+(((((d equiv (c or d)) revimp (neg neg a downarrow c))) downarrow (b or c)) notrevimp (((neg neg (a equiv neg neg b)) or b) notimp (neg neg (b equiv b)))) uparrow ((neg neg (d uparrow d)) uparrow ((neg a notequiv a) imp ((((neg neg c uparrow neg neg d)) notrevimp c) revimp (neg (c notequiv b))))),YES
+((b and b)) or ((b equiv b) revimp c),YES
+((c and d) notrevimp ((((c equiv a) downarrow d) revimp a))) revimp (neg neg ((neg neg a downarrow (neg c notrevimp (neg neg (neg neg b notequiv neg d)))) and (neg (neg neg d and neg neg c)))),YES
+(((b and d) downarrow (neg neg ((neg neg ((neg (a notrevimp d)) notrevimp (((neg neg d and c) uparrow (neg a equiv (neg neg (d notimp b))))))) or d))) or (((neg (neg d notequiv neg neg a)) notrevimp a) imp (((neg neg a downarrow a)) revimp (neg (neg d or d))))),YES
+((((neg ((neg ((neg neg (c notequiv (neg neg (c notequiv neg a)))) revimp ((d uparrow b)))) uparrow ((neg d notequiv c)))) notimp (neg ((neg neg ((neg neg (a equiv a)) notimp neg neg b)) downarrow (neg neg (c equiv neg a)))))) revimp ((neg neg b notrevimp ((neg (c imp neg a)) downarrow (neg b notequiv b))))),YES
+(((neg (c equiv ((neg (b notimp neg c)) notrevimp ((c revimp neg neg c))))) or (c notequiv d)) or (neg neg (((neg neg a imp b) revimp neg a) revimp ((a downarrow c))))),YES
+(c notimp c) uparrow (neg ((neg neg (neg c or a)) and (neg b revimp ((d and a) and ((d and b)))))),YES
+neg neg (((d revimp neg neg d) uparrow (b notimp b)) revimp (((neg (d notrevimp a)) notequiv d) notequiv (neg b or b))),YES
+((((neg neg ((neg neg b imp d) imp (neg neg (neg neg d uparrow neg neg a)))) or (d uparrow neg neg b))) revimp (neg neg (d notrevimp (a downarrow (neg neg c uparrow (c notrevimp c)))))),YES
+neg neg ((neg (((a equiv neg neg b) uparrow neg a) equiv ((b imp b) or c))) imp (((neg d downarrow c) or a) or (neg d or (a downarrow b)))),YES
+(((neg neg (c notimp a)) revimp (neg neg (a and a))) imp ((neg c downarrow d) revimp a)),YES
+((((neg ((neg neg (c uparrow neg neg a)) uparrow a)) revimp (neg (c uparrow a)))) and ((neg neg (b notequiv b)) and b)) imp ((((neg neg ((b uparrow neg a) and (neg neg b revimp a))) and ((neg a notrevimp c))) or ((c uparrow ((d notrevimp neg c)))))),YES
+neg neg ((((neg d imp d) revimp ((neg neg d imp (c notequiv b)))) or (((neg neg d uparrow d) or b))) or (((neg neg (c imp (b uparrow neg c))) equiv (neg neg (a imp d))))),YES
+(neg neg (((c notequiv d) revimp b) equiv ((neg (a or b)) and a))) or (neg ((neg b uparrow (a or neg d)) downarrow (b uparrow d))),YES
+neg neg ((((b notrevimp d)) and (neg c revimp (((neg neg a notequiv neg b)) notrevimp b))) imp ((c revimp c) imp d)),YES
+(((c and neg neg d) notimp c)) imp (((neg neg d notequiv (b equiv a))) notequiv (((neg neg (c notimp neg c)) and ((neg d or b))))),YES
+((neg (a revimp a)) uparrow (((c notrevimp (neg neg b equiv b)) uparrow ((neg neg (b uparrow b)) imp (neg (neg d imp b)))))),YES
+((b and (neg (neg b imp b))) uparrow neg b) or (neg neg (neg b and d)),YES
+(((neg (b revimp a)) imp (neg neg ((b notequiv (neg neg (a imp c))) uparrow (((a equiv neg neg b)) imp (b and c))))) or (neg neg ((((d uparrow neg b)) uparrow c) or ((c notequiv c) notrevimp (((((c uparrow c)) uparrow neg b) imp (((a notrevimp neg neg d) revimp neg neg d)))))))),YES
+neg ((a imp (c revimp neg neg c)) downarrow (neg neg ((neg (a imp (neg (neg neg d and (d and d))))) notrevimp (((neg a uparrow neg b) notrevimp (neg a imp neg b)))))),YES
+((((a revimp a) imp ((neg (c notrevimp c)) or (neg b notimp neg c)))) notimp ((b or (neg b or d)))) uparrow (neg c notimp (neg neg b equiv ((neg b revimp neg c)))),YES
+neg neg (((b downarrow b) revimp (neg neg (a notequiv (d or ((neg neg a notimp neg a)))))) or (((b notimp b)) equiv (a notimp c))),YES
+neg neg ((neg neg (((a downarrow b)) revimp (neg neg a notimp neg neg a))) uparrow ((neg neg c or (neg neg (b and (c and neg a)))) downarrow (c uparrow a))),YES
+((neg neg (d downarrow (((b imp c) or ((neg neg (c and neg b)) imp ((c and (c or d)))))))) imp (neg neg (a uparrow b))) or (neg ((neg neg (neg b and b)) equiv (neg neg (a or b)))),YES
+(((a notimp neg neg b)) and ((c equiv neg neg d) notimp (c imp c))) uparrow ((b downarrow (neg neg (c notequiv d)))),YES
+(a uparrow neg c) or (neg neg d uparrow (neg d equiv a)),YES
+(((b and d) notimp b)) imp (neg (a notequiv ((neg neg b equiv b)))),YES
+((c uparrow a) uparrow neg neg b) or (b equiv ((((neg neg b notequiv b)) imp c))),YES
+((neg ((a notimp neg neg c) notimp (((a or a)) revimp neg d))) uparrow (neg (b or (neg neg (c or neg b))))),YES
+neg neg ((c notimp (neg neg (neg neg a notequiv a))) imp (neg ((neg (c notrevimp a)) downarrow b))),YES
+(((neg a or ((neg a or c)))) uparrow (a downarrow (neg neg (a downarrow neg neg c)))) or (neg (c and neg c)),YES
+(c equiv (neg ((a notimp neg neg b) imp ((neg neg d and b))))) uparrow ((d notimp (neg (b notrevimp b)))),YES
+neg (((a notrevimp neg neg a)) notimp (neg (((((c uparrow a) imp (neg (b downarrow a))) notrevimp (d equiv ((neg (neg neg a revimp a)) revimp ((b imp neg a)))))) imp ((neg (c equiv neg neg b)) or neg neg c)))),YES
+neg ((((neg neg a and ((neg neg b notrevimp b))) downarrow (neg neg c or a)) equiv (a uparrow (neg neg (c downarrow c)))) notimp (neg neg (d uparrow (neg neg ((c notequiv neg neg d) equiv c))))),YES
+(((neg (c or a)) equiv (d equiv b)) revimp ((((d uparrow a)) uparrow neg neg d) notrevimp a)),YES
+(neg ((neg neg (neg neg d notrevimp neg neg b)) and (a notimp d))) revimp (neg neg (neg c notrevimp neg c)),YES
+neg (((neg neg (d or ((neg neg (a notrevimp b)) imp neg neg b))) notrevimp (neg neg (a uparrow (c or d)))) notimp (neg neg ((d notimp neg b) uparrow (neg neg d notrevimp b)))),YES
+(((neg (c downarrow d)) notimp ((neg (neg d uparrow d)) or neg c))) uparrow ((neg neg (c notimp (neg neg (neg b notequiv neg b)))) notimp c),YES
+((neg neg (a uparrow a)) equiv ((neg neg c notimp (b notequiv c)))) imp (neg c revimp (neg (neg neg c or a))),YES
+neg neg ((neg (((neg neg ((neg (neg neg d and neg d)) notrevimp (a and a))) equiv ((a revimp b) downarrow neg neg b)) uparrow (((neg (c notrevimp d)) notrevimp ((neg c notrevimp d)))))) uparrow (((((neg a notequiv neg a) notrevimp (c notequiv a))) equiv (d notimp d)) uparrow (d uparrow (neg (b downarrow c))))),YES
+(neg (a notimp a)) revimp (b and a),YES
+(neg b or b) notequiv ((a downarrow (a notimp a)) notrevimp (neg b downarrow neg neg a)),YES
+(((neg neg c notrevimp ((b notequiv b)))) and (neg neg ((neg neg d notimp b) equiv neg b))) imp (a notequiv d),YES
+(neg ((neg neg (neg a imp c)) notrevimp ((c revimp neg neg a)))) or (neg neg ((neg neg (neg a imp d)) uparrow a)),YES
+((neg (c downarrow (c revimp a))) downarrow ((neg neg (neg neg d downarrow neg neg b)) uparrow (neg neg (neg neg c notrevimp a)))) imp (a notimp c),YES
+((neg (d imp neg neg d)) uparrow (((neg neg (d downarrow b)) downarrow b))) revimp (neg (d and neg neg d)),YES
+neg (((neg (d notimp neg neg d)) or b) and (((c equiv neg neg c)) notrevimp (c downarrow (neg b notequiv a)))),YES
+((b notrevimp neg a)) or (((neg neg (neg neg a uparrow d)) imp (neg neg ((neg (neg d revimp a)) imp d)))),YES
+((((((neg a and neg a) notrevimp (c downarrow neg a))) notimp (((c imp neg neg c) imp a) imp (c imp d)))) uparrow (a imp (neg (neg c notimp neg d)))),YES
+((c and (a notequiv a)) imp (neg ((b imp d) equiv (b revimp neg neg c)))),YES
+neg neg (((((d notequiv d)) notimp (((neg c notequiv c) notequiv (neg (d uparrow (neg d equiv b))))))) uparrow (neg neg d imp (neg neg (c equiv neg d)))),YES
+(neg neg (neg b imp (neg neg (c uparrow a)))) revimp (d downarrow c),YES
+neg (((neg c revimp (b notrevimp a))) notimp (((((neg neg (neg neg a revimp c)) notequiv (b equiv neg neg d))) revimp ((neg a and a))))),YES
+((neg neg c uparrow ((neg ((neg neg (a equiv a)) downarrow (neg neg (c or neg neg b)))) downarrow c))) revimp (neg ((neg neg (a imp d)) notequiv (neg neg (neg neg d and neg neg d)))),YES
+(((((neg neg a downarrow c)) downarrow c) and (d and (a notimp a)))) uparrow (neg ((neg neg d imp (a downarrow neg d)) uparrow (((b or b) downarrow (neg neg (c equiv a)))))),YES
+((((d and c)) or ((neg neg (a or a)) equiv b))) imp ((((((neg c downarrow c)) uparrow (neg (((b and neg d)) uparrow (neg a imp c))))) imp ((((neg d or neg neg a)) revimp (neg neg (neg b downarrow b))))) or (neg (d or (d notimp d)))),YES
+(((neg (((neg neg d uparrow a) or neg d) uparrow (neg (c notrevimp ((neg neg c and (b downarrow c))))))) imp (b revimp neg neg d))) revimp (neg neg ((neg neg a notequiv neg neg a) revimp (a equiv a))),YES
+((a notrevimp neg d) uparrow ((((d uparrow neg neg d)) uparrow neg neg b))) revimp ((neg neg (((a revimp c)) revimp d)) notimp (neg neg ((c notrevimp d) revimp (b or d)))),YES
+(neg ((neg (neg neg a and (neg a and b))) notrevimp b)) revimp (((neg (c notrevimp (((neg (neg a notimp c)) notrevimp neg b)))) imp (b notrevimp d)) revimp (c and d)),YES
+neg ((neg neg ((neg (d and d)) imp (b equiv neg neg b))) downarrow (((d notrevimp c) downarrow b) uparrow (a imp a))),YES
+neg ((neg neg ((neg ((b equiv d) notequiv (a notimp a))) notrevimp (neg neg (a and neg a)))) and (neg neg ((c downarrow a) and neg neg a))),YES
+neg neg (((neg ((neg neg (c equiv c)) notrevimp neg neg d)) revimp ((a and (a uparrow c)))) or ((b and neg neg c) imp (((c notrevimp a) or ((d or b)))))),YES
+(b revimp ((neg neg (neg neg a and neg c)) notrevimp a)) revimp (((neg neg (a downarrow ((b revimp neg a) imp neg c))) equiv ((neg neg (a uparrow d)) or (b downarrow neg d)))),YES
+(neg neg (((neg neg b imp b)) or ((neg neg (c imp d)) or (neg neg (neg neg a notrevimp a))))) revimp (neg neg ((((neg neg (neg neg d equiv b)) revimp (a notrevimp neg c)) notrevimp (neg neg a notimp (neg b uparrow neg neg c))) equiv ((c or (a uparrow neg a))))),YES
+(((((a equiv neg b) uparrow b) notimp (neg neg (neg a uparrow b)))) uparrow (((b notrevimp d)) equiv (((neg neg (d uparrow a)) uparrow ((d revimp b)))))),YES
+neg neg (((neg neg (neg neg c notimp neg neg a)) and (((a downarrow c) or (b notrevimp (a notrevimp b))))) uparrow ((d notequiv ((neg c notequiv (a uparrow neg c)))) notrevimp (a uparrow b))),YES
+neg neg ((neg ((neg neg (neg c notimp d)) uparrow ((((neg (a or neg d)) uparrow neg neg c) imp (c notequiv d))))) uparrow ((((((a equiv neg neg c)) imp a)) uparrow (neg a revimp (neg ((a uparrow a) notequiv b)))))),YES
+neg neg ((neg neg (a or (neg neg (c revimp neg neg a)))) or (neg neg ((((neg a equiv neg neg a)) or a) downarrow (neg b notimp c)))),YES
+(c imp (neg (d notrevimp a))) or (((neg neg (c notrevimp ((c uparrow neg c)))) imp (b equiv b)) uparrow ((neg (((d uparrow neg neg d) downarrow neg c) or d)) downarrow a)),YES
+neg ((neg neg ((((neg (neg neg a downarrow d)) notimp (neg neg c equiv c))) notequiv ((neg neg (neg neg d equiv neg b)) downarrow (neg neg c uparrow (a or ((c revimp d))))))) notrevimp (((a notrevimp c) notequiv neg neg a) notrevimp (neg neg (((neg neg d and c)) equiv (neg neg (neg neg b uparrow a)))))),YES
+neg (((neg a notimp (a imp c))) notequiv (neg ((neg neg (neg d and a)) imp (neg ((neg (neg d downarrow c)) notrevimp ((neg c and c))))))),YES
+neg neg (((neg b uparrow b) revimp (neg ((neg ((neg (neg b revimp c)) revimp (c and b))) downarrow ((d imp a) notrevimp (c downarrow d))))) uparrow (neg ((d notequiv ((neg c downarrow d))) uparrow (neg (a notequiv (neg (neg neg a and a))))))),YES
+(neg ((((neg neg (d equiv c)) notequiv c)) or (d or a))) imp ((neg neg ((neg (neg a uparrow b)) notequiv ((((a notequiv neg b) equiv neg b) or ((((neg d or b)) uparrow b) notequiv b))))) downarrow (neg ((b notimp neg d) and (neg b or c)))),YES
+neg neg (((a notrevimp a) notrevimp neg b) imp (((d notimp d) or (((neg neg (b downarrow d)) or (neg neg (((d or neg a)) revimp a))))))),YES
+(((((b notrevimp d)) downarrow (a equiv a))) uparrow (c uparrow (neg neg (b notequiv c)))),YES
+((d revimp neg a) and ((d uparrow c) and ((neg neg (c equiv neg neg d)) or ((a notequiv ((b notrevimp neg c))))))) or (neg ((((neg c revimp neg neg b) or neg neg a)) downarrow (neg b or b))),YES
+((neg neg ((((neg b imp d) or b) downarrow a) downarrow (((neg neg (d notequiv a)) and (neg neg (d or a)))))) uparrow ((d notimp a) and (neg neg (c downarrow b)))),YES
+(neg ((neg ((neg neg c and a) uparrow b)) notrevimp (((neg neg d downarrow a) uparrow neg b)))) or ((neg neg (((neg a or neg a)) revimp (neg neg ((neg b uparrow neg neg a) downarrow neg neg a)))) or ((neg neg b uparrow neg neg b))),YES
+neg (((((neg ((neg neg (d or b)) or ((a notrevimp neg d)))) downarrow c) downarrow (c or d))) notimp (((((neg neg a equiv neg b)) revimp (d notimp a)) or (c notimp b)))),YES
