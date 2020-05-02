@@ -43,7 +43,10 @@ BINARY_OPERATORS = [("and", "And"), ("uparrow", "Nand"), ("or", "Or"), ("downarr
 def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, csvout):
     """ Entry point of the test script """
     if tests is not None:
-        data = pandas.read_csv(f"tests/{tests}", header=None)
+        try:
+            data = pandas.read_csv(f"tests/{tests}", header=None)
+        except:
+            data = pandas.read_csv(tests, header=None)
 
         problems = list(data[0])
         solutions = list(data[1])
