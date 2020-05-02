@@ -44,9 +44,9 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, c
     """ Entry point of the test script """
     if tests is not None:
         try:
-            data = pandas.read_csv(f"tests/{tests}", header=None)
-        except:
             data = pandas.read_csv(tests, header=None)
+        except:
+            data = pandas.read_csv(f"tests/{tests}", header=None)
 
         problems = list(data[0])
         solutions = list(data[1])
