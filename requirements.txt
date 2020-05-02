@@ -3,7 +3,6 @@ click==7.1.2
 mpmath==1.1.0
 numpy==1.18.3
 pandas==1.0.3
-pkg-resources==0.0.0
 prettytable==0.7.2
 pycodestyle==2.5.0
 python-dateutil==2.8.1
