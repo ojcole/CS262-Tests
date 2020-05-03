@@ -10,6 +10,7 @@ from tabulate import tabulate
 import sympy
 from sympy.logic.boolalg import Nand, Not, Nor, Xor, Equivalent, Implies, And, Or, true, false
 from sympy.logic.inference import satisfiable
+from alive_progress import alive_bar
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -70,31 +71,14 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, c
         try:
             problems = [generate_problem(
                 maxdepth, problem_symbols) for _ in range(int(count))]
-            probs = []
-            solutions = []
-            actual_results = []
-            same = []
-            for infix, clause in problems:
-                if not quiet:
-                    logger.info(f"Running test on {infix}")
 
-                actual_res = run_problems([infix], plfile)[0]
-                solution = solve_problem(clause)
+            if quiet:
+                with alive_bar(int(count)) as bar:
+                    run_result = run_generated(problems, quiet, errors, plfile, bar)
+            else:
+                run_result = run_generated(problems, quiet, errors, plfile)
 
-                append = not errors or actual_res != solution
-
-                if append:
-                    probs.append(infix)
-                    solutions.append(solution)
-                    actual_results.append(actual_res)
-
-                res = "PASS" if actual_res == solution else "FAIL"
-
-                if not quiet:
-                    logger.info(res)
-
-                if append:
-                    same.append(res)
+            probs, solutions, actual_results, same = run_result
 
             if not csvout:
                 logger.info("Summary:")
@@ -117,6 +101,39 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, c
             logger.error("Prolog program produced unexpected output. Expecting YES or NO")
         except ValueError:
             logger.error("Tests needs to be a number")
+
+
+def run_generated(problems: [(str, str)], quiet: bool, errors: bool, plfile: str, func=lambda: ""):
+    probs = []
+    solutions = []
+    actual_results = []
+    same = []
+
+    for infix, clause in problems:
+        if not quiet:
+            logger.info(f"Running test on {infix}")
+
+        actual_res = run_problems([infix], plfile)[0]
+        solution = solve_problem(clause)
+
+        append = not errors or actual_res != solution
+
+        if append:
+            probs.append(infix)
+            solutions.append(solution)
+            actual_results.append(actual_res)
+
+        res = "PASS" if actual_res == solution else "FAIL"
+
+        if not quiet:
+            logger.info(res)
+
+        if append:
+            same.append(res)
+
+        func()
+
+    return probs, solutions, actual_results, same
 
 
 def generate_problem(maxdepth: int, symbs: list) -> (str, str):
