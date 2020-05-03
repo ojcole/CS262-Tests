@@ -1,6 +1,6 @@
 # CS262 Testing Script
 
-## Setup Linux
+## Setup Linux / Mac
 
 Make sure you have swipl installed then just create the venv:
 
@@ -9,6 +9,22 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+## Setup Windows
+
+Make sure you have `swipl` installed and in your path.
+
+I recommend the use of `git bash` simply because I don't know `cmd`.
+
+If you get permission denied when running `python3` try `python`
+
+```
+python3 -m venv venv
+source venv/Scripts/activate
+pip install -r requirements.txt
+```
+
+## Running the script
 
 Ensure that your .pl file is in the directory or pass it as an argument to the script
 
@@ -28,10 +44,18 @@ Arguments and what they do can be found with `--help`
 
 Populate a CSV in the tests folder with separators of "," or elsewhere and use `--tests` to run it
 
-# Coursework Solutions
+## Generating own tests
+
+You can generate your own tests, such as the tautologies.csv test, by specfiying the `--csvout` option which will only print the tests and the actual solution. This can be combined with `--truths` to only generate tautologies. This is just printed to stdout so just pipe with `>` as usual.
+
+## Coursework Solutions
 
 I cannot provide the correct answers to the coursework problems as its part of the coursework to
 identify them. However, if you fill your solutions into the `base.csv` file you can test them. They
 can be found by subbing into a truth table generator such as
 [here](https://web.stanford.edu/class/cs103/tools/truth-table-tool/). Where its YES iff the entire
 table is yes.
+
+# Regards
+
+Hope you like it and let me (Ollie) know what you think / if you find a test you find interesting
