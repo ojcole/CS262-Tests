@@ -1,16 +1,12 @@
 import click
-import subprocess
-import logging
 import random
-import string
 import sys
+import logging
+import string
 import pandas
-from os import remove
 from tabulate import tabulate
-import sympy
-from sympy.logic.boolalg import Nand, Not, Nor, Xor, Equivalent, Implies, And, Or, true, false
-from sympy.logic.inference import satisfiable
 from alive_progress import alive_bar
+from helpers import generate_problem, run_problems, solve_problem, SYMBOLS
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -20,19 +16,11 @@ handler.setLevel(logging.INFO)
 
 logger.addHandler(handler)
 
-SYMBOLS = list(string.ascii_lowercase)
-sympsymbs = sympy.symbols(SYMBOLS)
-
-BINARY_OPERATORS = [("and", "And"), ("uparrow", "Nand"), ("or", "Or"), ("downarrow", "Nor"),
-                    ("imp", "Implies"), ("notimp", "s"), ("revimp", "s"), ("notrevimp", "s"),
-                    ("equiv", "Equivalent"), ("notequiv", "Xor")]
-
 
 @click.command()
 @click.option("--maxdepth", default=5, help="Maximum depth of the generated problems")
 @click.option("--seed", default="notquitehaskell", help="Seed to generate the problems")
-@click.option("--tests", default=None,
-              help="CSV containing test cases **Must be in the test folder**")
+@click.option("--tests", default=None, help="CSV containing test cases")
 @click.option("--plfile", default="resolution.pl", help="File containing your source")
 @click.option("--count", default=30, help="How many tests to run")
 @click.option("--symbols", default=5, help="How many symbols to include in the problem")
@@ -134,86 +122,6 @@ def run_generated(problems: [(str, str)], quiet: bool, errors: bool, plfile: str
         func()
 
     return probs, solutions, actual_results, same
-
-
-def generate_problem(maxdepth: int, symbs: list) -> (str, str):
-    if maxdepth <= 0:
-        rand = random.randint(0, len(symbs) + 1)
-
-        if rand >= len(symbs):
-            clause = ["true", "false"][rand - len(symbs)]
-            infix = clause
-        else:
-            clause = f"sympsymbs[{rand}]"
-            infix = symbs[rand]
-    else:
-        rand1 = random.randint(0, len(BINARY_OPERATORS) - 1)
-        rand2 = maxdepth - random.randint(1, 5)
-        rand3 = maxdepth - random.randint(1, 5)
-
-        operator, sympop = BINARY_OPERATORS[rand1]
-        infix1, sympclause1 = generate_problem(rand2, symbs)
-        infix2, sympclause2 = generate_problem(rand3, symbs)
-        infix = f"({infix1})" if rand2 > 0 else infix1
-        infix += f" {operator} "
-        infix += f"({infix2})" if rand3 > 0 else infix2
-
-        if sympop == "s":
-            if "rev" in operator:
-                tmp = sympclause1
-                sympclause1 = sympclause2
-                sympclause2 = tmp
-                operator = operator.replace("rev", "")
-
-            if operator == "imp":
-                sympop = "Implies"
-
-            if operator == "notimp":
-                clause = f"Not(Implies({sympclause1}, {sympclause2}))"
-
-        if sympop != "s":
-            clause = f"{sympop}({sympclause1}, {sympclause2})"
-
-    negs = random.randint(0, 5)
-
-    if negs >= 3:
-        if maxdepth > 0:
-            infix = f"({infix})"
-        for i in range(negs - 3):
-            infix = f"neg {infix}"
-            clause = f"Not({clause})"
-
-    return infix, clause
-
-
-def run_problems(problems: [str], resfile: str) -> [bool]:
-
-    tmp = open("temp.pl", "w+")
-    resolution = open(resfile, "r+")
-
-    contents = resolution.read()
-
-    problem_string = ",".join(map(lambda x: f"test({x}),writeln(\"\")", problems))
-
-    tmp.write(contents + f"\n\nrun :- {problem_string}.")
-
-    tmp.close()
-    resolution.close()
-
-    p = subprocess.Popen(["swipl", "--quiet", "-l", "temp.pl", "-t",
-                          f"run"], stdout=subprocess.PIPE)
-
-    p.wait()
-    result, _ = p.communicate()
-    stringres = bytes(result).decode("utf-8").strip()
-
-    remove("temp.pl")
-
-    return stringres.split("\n")
-
-
-def solve_problem(problem: str) -> str:
-    return "NO" if isinstance(eval(f"satisfiable(Not({problem}))"), dict) else "YES"
 
 
 if __name__ == "__main__":
