@@ -85,6 +85,9 @@ def run_problems(problems: [str], resfile: str) -> [bool]:
     result, _ = p.communicate()
     stringres = bytes(result).decode("utf-8").strip()
 
+    while "\n\n" in stringres:
+        stringres = stringres.replace("\n\n", "\n")
+
     remove("temp.pl")
 
     return stringres.split("\n")
