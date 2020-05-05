@@ -29,7 +29,8 @@ logger.addHandler(handler)
               help="Avoids outputting randomly generated tests which passed")
 @click.option("--truths", default=False, is_flag=True, help="Only outputs tautologies")
 @click.option("--csvout", default=False, is_flag=True, help="Output in CSV format")
-def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, csvout):
+@click.option("--concurrent", default=1, help="Runs many tests at once")
+def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, csvout, concurrent):
     """ Entry point of the test script """
     if tests is not None:
         try:
@@ -62,9 +63,9 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, c
 
             if quiet:
                 with alive_bar(int(count)) as bar:
-                    run_result = run_generated(problems, quiet, errors, plfile, bar)
+                    run_result = run_generated(problems, quiet, errors, plfile, concurrent, bar)
             else:
-                run_result = run_generated(problems, quiet, errors, plfile)
+                run_result = run_generated(problems, quiet, errors, plfile, concurrent)
 
             probs, solutions, actual_results, same = run_result
 
@@ -91,35 +92,57 @@ def main(maxdepth, seed, tests, plfile, count, symbols, quiet, errors, truths, c
             logger.error("Tests needs to be a number")
 
 
-def run_generated(problems: [(str, str)], quiet: bool, errors: bool, plfile: str, func=lambda: ""):
+def run_generated(problems, quiet, errors, plfile, concurrent=1, func=lambda: ""):
     probs = []
     solutions = []
     actual_results = []
     same = []
 
-    for infix, clause in problems:
-        if not quiet:
-            logger.info(f"Running test on {infix}")
+    if concurrent > 1:
+        for i in range(0, len(problems), concurrent):
+            problemsi = problems[i:i+concurrent]
 
-        actual_res = run_problems([infix], plfile)[0]
-        solution = solve_problem(clause)
+            actual_reses = run_problems(map(lambda x: x[0], problemsi), plfile)
+            sols = [solve_problem(clause) for _, clause in problemsi]
 
-        append = not errors or actual_res != solution
+            for j in range(concurrent):
+                infix, clause = problemsi[j]
+                actual_res = actual_reses[j]
+                solution = sols[j]
 
-        if append:
-            probs.append(infix)
-            solutions.append(solution)
-            actual_results.append(actual_res)
+                append = not errors or actual_res != solution
 
-        res = "PASS" if actual_res == solution else "FAIL"
+                res = "PASS" if actual_res == solution else "FAIL"
 
-        if not quiet:
-            logger.info(res)
+                if append:
+                    probs.append(infix)
+                    solutions.append(solution)
+                    actual_results.append(actual_res)
+                    same.append(res)
 
-        if append:
-            same.append(res)
+                func()
+    else:
+        for infix, clause in problems:
+            if not quiet:
+                logger.info(f"Running test on {infix}")
 
-        func()
+            actual_res = run_problems([infix], plfile)[0]
+            solution = solve_problem(clause)
+
+            append = not errors or actual_res != solution
+
+            res = "PASS" if actual_res == solution else "FAIL"
+
+            if append:
+                probs.append(infix)
+                solutions.append(solution)
+                actual_results.append(actual_res)
+                same.append(res)
+
+            if not quiet:
+                logger.info(res)
+
+            func()
 
     return probs, solutions, actual_results, same
 
