@@ -71,14 +71,15 @@ def run_problems(problems: [str], resfile: str) -> [bool]:
 
     contents = resolution.read()
 
-    problem_string = ",".join(map(lambda x: f"test({x}),writeln(\"\")", problems))
+    problem_string = ",".join(map(lambda x: f"test({x}),nl", problems))
 
-    tmp.write(contents + f"\n\nrun :- {problem_string}.")
+    tmp.write(
+        contents + f"\n\nrun :- {problem_string}.")
 
     tmp.close()
     resolution.close()
 
-    p = subprocess.Popen(["swipl", "--quiet", "-l", "temp.pl", "-t",
+    p = subprocess.Popen(["swipl", "--quiet", "--stack_limit=4G", "-l", "temp.pl", "-t",
                           f"run"], stdout=subprocess.PIPE)
 
     p.wait()
@@ -98,7 +99,7 @@ def run_problem(problem: str, contents: str):
     tmp.write(contents + f"\n\nrun :- test({problem}).")
     tmp.close()
 
-    p = subprocess.Popen(["swipl", "--quiet", "-l", "temp.pl", "-t",
+    p = subprocess.Popen(["swipl", "--quiet", "--stack_limit=4G", "-l", "temp.pl", "-t",
                           f"run"], stdout=subprocess.DEVNULL)
 
     p.wait()

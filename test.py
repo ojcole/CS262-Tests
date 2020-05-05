@@ -105,7 +105,7 @@ def run_generated(problems, quiet, errors, plfile, concurrent=1, func=lambda: ""
             actual_reses = run_problems(map(lambda x: x[0], problemsi), plfile)
             sols = [solve_problem(clause) for _, clause in problemsi]
 
-            for j in range(concurrent):
+            for j in range(len(problemsi)):
                 infix, clause = problemsi[j]
                 actual_res = actual_reses[j]
                 solution = sols[j]
