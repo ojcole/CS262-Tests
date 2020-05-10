@@ -91,7 +91,7 @@ def run_problems(problems: [str], resfile: str) -> [bool]:
 
     remove("temp.pl")
 
-    return stringres.split("\n")
+    return stringres.replace("\r", "").split("\n")
 
 
 def run_problem(problem: str, contents: str):
