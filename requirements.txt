@@ -2,7 +2,7 @@ alive-progress==1.5.0
 autopep8==1.5.2
 click==7.1.2
 mpmath==1.1.0
-numpy==1.18.3
+numpy==1.22.0
 pandas==1.0.3
 prettytable==0.7.2
 pycodestyle==2.5.0
